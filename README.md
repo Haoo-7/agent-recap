@@ -1,5 +1,13 @@
 # agent-recap
 
+<p align="center">
+  <img src="./assets/readme/hero.svg" width="100%" alt="agent-recap：让每个 AI coding agent 的回复结尾都带上一句 recap 交接和一行 Next 下一步；右侧是真实的回复结尾标本与安装命令。">
+</p>
+
+<p align="center">
+  <img src="./assets/readme/how-it-works.svg" width="100%" alt="agent-recap 工作方式：install 检测本机 agent 并逐个写入，status 查看每台的覆盖状态，remove 撤除全部受管内容">
+</p>
+
 ## 有什么用
 
 给这台机器上所有 AI coding agent 装上同一条收尾规则：每条有实质内容的回复结尾，附一行 `🏁 recap:` 说明这轮在做什么、为什么，再加一行 `Next:` 说明当前状态、阻塞或下一步。

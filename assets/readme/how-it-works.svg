@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1200" height="208" viewBox="0 0 1200 208"
+     role="img" aria-labelledby="flow-title flow-desc">
+  <title id="flow-title">agent-recap 工作方式</title>
+  <desc id="flow-desc">三个命令：install 检测本机 agent 并写入各自原生机制，status 查看覆盖状态，remove 撤除全部受管内容；所有改动都落在标记区块内。</desc>
+
+  <rect width="1200" height="208" rx="18" fill="#0B0E14"/>
+  <text x="56" y="46" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" letter-spacing="2" fill="#8B93A7">HOW IT WORKS</text>
+
+  <!-- 三个命令 -->
+  <g id="flow-cmd-install" transform="translate(56 66)">
+    <rect width="336" height="86" rx="10" fill="#11151F" stroke="#262C3A"/>
+    <text x="24" y="38" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="22" fill="#7EE787">$ install</text>
+    <text x="24" y="66" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="18" fill="#8B93A7">检测本机 agent，逐个写入</text>
+  </g>
+
+  <path d="M400 109 L424 109 M418 103 L426 109 L418 115" fill="none" stroke="#3D4453" stroke-width="2"/>
+
+  <g id="flow-cmd-status" transform="translate(432 66)">
+    <rect width="336" height="86" rx="10" fill="#11151F" stroke="#262C3A"/>
+    <text x="24" y="38" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="22" fill="#79C0FF">$ status</text>
+    <text x="24" y="66" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="18" fill="#8B93A7">查看每台 agent 的覆盖状态</text>
+  </g>
+
+  <path d="M776 109 L800 109 M794 103 L802 109 L794 115" fill="none" stroke="#3D4453" stroke-width="2"/>
+
+  <g id="flow-cmd-remove" transform="translate(808 66)">
+    <rect width="336" height="86" rx="10" fill="#11151F" stroke="#262C3A"/>
+    <text x="24" y="38" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="22" fill="#F0883E">$ remove</text>
+    <text x="24" y="66" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="18" fill="#8B93A7">撤除全部受管内容，不留残渣</text>
+  </g>
+
+  <text x="600" y="182" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" fill="#5C6577">所有改动落在 &lt;!-- recap:begin --&gt; 与 &lt;!-- recap:end --&gt; 之间：重跑是更新，不是叠加</text>
+</svg>
