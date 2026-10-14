@@ -1,0 +1,26 @@
+{
+  "skill_name": "agent-recap",
+  "evals": [
+    {
+      "id": 1,
+      "name": "install-from-natural-language",
+      "prompt": "以后我每个 agent 的回复结尾都想看到一行小结：这轮干了什么、下一步做什么。帮我配上。",
+      "expected_output": "Runs `node scripts/recap.mjs install` (dry-run acceptable first) from the skill directory, then reports the per-agent coverage table from status, notes which agents are convention-fallback only, and tells the user to restart the agents. No hand-editing of config files.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "change-format-in-place",
+      "prompt": "recap 的前缀我不喜欢 🏁 了，换成 🎯，而且句子允许到三句",
+      "expected_output": "Edits CONFIG (prefix, maxSentences) at the top of scripts/recap.mjs, re-runs install, and confirms the update happened in place — exactly one managed region per file, no duplicates, no uninstall/reinstall.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "name": "remove-everywhere",
+      "prompt": "把 recap 这东西从我的 agent 里全撤掉，不想要了",
+      "expected_output": "Runs `node scripts/recap.mjs remove` (dry-run acceptable), then confirms marked regions were stripped, the OpenCode plugin file was deleted, files the skill created wholesale were deleted, and pre-existing user content was left untouched.",
+      "files": []
+    }
+  ]
+}
