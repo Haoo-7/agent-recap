@@ -14,7 +14,7 @@ Each adapter carries a `tier`, and `status` prints it:
 - `local` — the landing path was read out of that tool's own installed code or data on a
   real machine (a bundle string, a binary string, or a source file in the venv). Where a
   runtime check was also possible, it is noted.
-- `docs` — taken from the tool's official documentation, not exercised on this machine.
+- `docs` — taken from the tool's official documentation, not exercised against a real install.
 - `unverified` — guessed from convention. **`install` skips these unless `--experimental`.**
 
 An adapter is only listed here if someone can point at the evidence recorded in the `Basis`
@@ -30,7 +30,7 @@ leaving a stale claim in place.
 | Codex CLI | Global rules file | `<home>/.codex/AGENTS.md` | local | Global `AGENTS.md` in `~/.codex` |
 | Grok Build | Global rules file | `<home>/.grok/AGENTS.md` | local | Global `AGENTS.md` in `~/.grok` |
 | Kimi Code | Global instructions collected at startup | `<home>/.kimi-code/AGENTS.md` | local | Verified on the installed build; older builds may not read this path |
-| Gemini CLI | Global context file | `<home>/.gemini/GEMINI.md` | docs | gemini-cli docs, global context file `~/.gemini/GEMINI.md`; not exercised here |
+| Gemini CLI | Global context file | `<home>/.gemini/GEMINI.md` | docs | gemini-cli docs, global context file `~/.gemini/GEMINI.md`; not exercised against a real install |
 | dsh | `system-prompt` plugin override via `personaSuffix`, one patch entry per profile | `<home>/.dsh/profiles/*/cordis.patch.yml` | local | Verified with `dsh --profile headless --dump-config`; coupled to the 0.2.x profile-patch format |
 | pi | Global instructions file | `<home>/.pi/agent/AGENTS.md` | local | Bundle lists `AGENTS.md` as a resource file name; global dir is `~/.pi/agent`. **Runtime confirmed** (`pi --print` reproduced the rule) |
 | Command Code | Global user memory | `<home>/.commandcode/AGENTS.md` | local | Bundle `getUserMemoryPath()` = `~/.commandcode/AGENTS.md`, loaded as type `user`. **Runtime confirmed** on 1.82.3 |
@@ -45,7 +45,7 @@ Plus the mainstream adapters below, which stay inert until you actually install 
 
 ## Mainstream adapters
 
-Taken from each tool's official documentation. None of these was exercised on this machine, so
+Taken from each tool's official documentation. None of these was exercised against a real install, so
 they are `docs` tier: `install` writes them when the tool's config dir is present, and nothing
 at all happens until it is.
 
@@ -80,7 +80,7 @@ absent:
   goes through skills/microagents.
 - **Trae** — the CN docs publish `~/.trae-cn/user_rules/`, the international site is JS-rendered
   and the two paths differ. Not shipped until the path is confirmed for both.
-- **Cline** (on this machine) — no rules file: settings are a JSON with no rules key and rules
+- **Cline** (checked against its installed code) — no rules file: settings are a JSON with no rules key and rules
   live in its database. Revisit if a file mechanism appears.
 - **CodeBuddy** — shipped but `unverified`, so `install` skips it without `--experimental`: the
   CLI clearly references a `CODEBUDDY.md` user memory, but the home-directory composition is

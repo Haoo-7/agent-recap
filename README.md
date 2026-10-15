@@ -1,7 +1,7 @@
 # agent-recap
 
 <p align="center">
-  <img src="./assets/readme/hero.svg" width="100%" alt="agent-recap：给一台机器上装了多个 AI coding agent 的人，每条回复结尾固定两行——🏁 recap 说这轮做了什么，Next 说下一步。25 个 harness 落点，本机一次命中 14 个：OpenCode、Claude Code、Codex、Gemini CLI、Grok、Kimi Code、dsh、pi、Command Code、Qoder CLI、Cursor CLI、Antigravity、Hermes、misaka，外加 Copilot/Qwen/Crush/Amp/Zed/Devin/Goose/Windsurf/Roo/Kiro 的文档级适配和 AGENTS.md 约定兜底。一条命令装完，无第三方依赖。">
+  <img src="./assets/readme/hero.svg" width="100%" alt="agent-recap：给一台机器上装了多个 AI coding agent 的人，每条回复结尾固定两行——🏁 recap 说这轮做了什么，Next 说下一步。26 个 harness 落点，按各自原生机制写入：OpenCode、Claude Code、Codex、Gemini CLI、Grok、Kimi Code、dsh、pi、Command Code、Qoder CLI、Cursor CLI、Antigravity、Hermes、misaka、GitHub Copilot CLI、Qwen Code、Crush、Amp、Zed、Devin、Goose、Windsurf、Roo Code、Kiro CLI、CodeBuddy，外加 AGENTS.md 约定兜底。一条命令装完，无第三方依赖。">
 </p>
 
 <p align="center">
@@ -20,7 +20,7 @@
   <img src="./assets/readme/how-it-works.svg" width="100%" alt="install 一条命令按机制分五路写入：AGENTS.md/GEMINI.md/QWEN.md 这类全局指令文件里插入 recap:begin 与 recap:end 标记区；Cursor 写 ~/.cursor/rules/recap.mdc 用户规则；Roo 和 Kiro 在各自 rules 目录里放一个受管文件；OpenCode 插件和 dsh profile patch 每次请求注入系统提示；最后兜底写 ~/.agents/AGENTS.md 约定。重跑 install 是原地更新，跑 remove 是整块撤除。">
 </p>
 
-### 本机已装的 harness
+### 落点路径已核实的 harness（`local` 证据档）
 
 | Agent | 落点 | 原生机制 | 证据 |
 |---|---|---|---|
@@ -40,7 +40,7 @@
 | misaka | `~/.misaka/MISAKA.md` | 共享身份文件，先于各角色加载 | local |
 | 约定兜底 | `~/.agents/AGENTS.md` | 跨 agent 的 AGENTS.md 约定 | local |
 
-### 主流 harness（按官方文档适配，本机未安装时装不上也不产生任何文件）
+### 按官方文档适配的主流 harness（工具未安装时，`install` 不会写入任何文件）
 
 | Agent | 落点 |
 |---|---|
@@ -55,7 +55,7 @@
 | Roo Code | `~/.roo/rules/recap.md`（本 Skill 自持一个文件，不动你写的规则） |
 | Kiro CLI | `~/.kiro/steering/recap.md` |
 
-覆盖强度分三档：OpenCode 插件和 dsh 的 patch 每次请求注入系统提示；其余是 agent 启动时加载的指令文件，属于建议级；`~/.agents/AGENTS.md` 只覆盖会读这个约定的工具。证据分档（`local` = 从本机已安装的代码里读出来的路径，`docs` = 官方文档，`unverified` = 需 `--experimental` 才写）、每个适配器的取证依据和漂移风险见 `references/adapters.md`。iFlow 已停服、Amazon Q CLI 已改名 Kiro、Kilo 只能用配置项、Trae 国内外路径不一致，这些**故意不收录**。
+覆盖强度分三档：OpenCode 插件和 dsh 的 patch 每次请求注入系统提示；其余是 agent 启动时加载的指令文件，属于建议级；`~/.agents/AGENTS.md` 只覆盖会读这个约定的工具。证据分档（`local` = 从该工具已安装的代码里核实出来的路径，`docs` = 官方文档，`unverified` = 需 `--experimental` 才写）、每个适配器的取证依据和漂移风险见 `references/adapters.md`。iFlow 已停服、Amazon Q CLI 已改名 Kiro、Kilo 只能用配置项、Trae 国内外路径不一致，这些**故意不收录**。
 
 ## 安装
 
@@ -124,7 +124,7 @@ node scripts/recap.mjs status       # 查看本机覆盖情况
 ## English
 
 <p align="center">
-  <img src="./assets/readme/hero-en.svg" width="100%" alt="agent-recap: for anyone running several AI coding agents on one machine, every reply ends with two fixed lines — a 🏁 recap line saying what the turn did, and a Next line saying what comes next. 25 harness targets, 14 of them detected on this machine: OpenCode, Claude Code, Codex, Gemini CLI, Grok, Kimi Code, dsh, pi, Command Code, Qoder CLI, Cursor CLI, Antigravity, Hermes and misaka, plus documentation-backed adapters for Copilot, Qwen, Crush, Amp, Zed, Devin, Goose, Windsurf, Roo and Kiro, and an AGENTS.md convention fallback. One command, no third-party dependencies.">
+  <img src="./assets/readme/hero-en.svg" width="100%" alt="agent-recap: for anyone running several AI coding agents on one machine, every reply ends with two fixed lines — a 🏁 recap line saying what the turn did, and a Next line saying what comes next. 26 harness targets, each written through its own native mechanism: OpenCode, Claude Code, Codex, Gemini CLI, Grok, Kimi Code, dsh, pi, Command Code, Qoder CLI, Cursor CLI, Antigravity, Hermes, misaka, GitHub Copilot CLI, Qwen Code, Crush, Amp, Zed, Devin, Goose, Windsurf, Roo Code, Kiro CLI and CodeBuddy, plus the AGENTS.md convention fallback. One command, no third-party dependencies.">
 </p>
 
 > Chinese is the primary language of this document; the sections above are the reference version.
@@ -147,7 +147,7 @@ appending duplicates, and one command removes everything.
   <img src="./assets/readme/how-it-works-en.svg" width="100%" alt="one install command writes through five mechanisms: a recap:begin / recap:end marked region inside global instruction files such as AGENTS.md, GEMINI.md and QWEN.md; a ~/.cursor/rules/recap.mdc user rule with alwaysApply; one managed file inside the Roo and Kiro rules directories; the OpenCode plugin and dsh profile patch, which inject the system prompt on every request; and the ~/.agents/AGENTS.md convention fallback. Re-running install updates in place, remove strips the whole block.">
 </p>
 
-### Detected on this machine
+### Adapters whose paths were verified against installed code (`local` tier)
 
 | Agent | Target | Native mechanism | Evidence |
 |---|---|---|---|

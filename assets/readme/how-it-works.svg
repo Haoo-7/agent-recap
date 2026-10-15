@@ -26,7 +26,7 @@
     <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" fill="#C6CEDD">
       <text x="84" y="278">~/.claude/CLAUDE.md      ~/.codex/AGENTS.md</text>
       <text x="84" y="306">~/.pi/agent/AGENTS.md    ~/.qoder-cn/AGENTS.md</text>
-      <text x="84" y="334">~/.hermes/SOUL.md        ~/.copilot/&#8203;copilot-instructions.md</text>
+      <text x="84" y="334">~/.hermes/SOUL.md    ~/.copilot/copilot-instructions.md</text>
       <text x="84" y="362" fill="#8B93A7">+ ~/.agents/AGENTS.md 约定兜底 · 未装的工具不写</text>
     </g>
   </g>
@@ -73,13 +73,14 @@
 
   <!-- 证据档 -->
   <g id="flow-tiers" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="17" fill="#8B93A7">
-    <text x="56" y="616" fill="#5C6577">证据档</text>
-    <circle cx="148" cy="610" r="5" fill="#7EE787"/>
-    <text x="164" y="616">local 14 个：路径读自本机代码</text>
-    <circle cx="470" cy="610" r="5" fill="#79C0FF"/>
-    <text x="486" y="616">docs 11 个：来自官方文档</text>
-    <circle cx="742" cy="610" r="5" fill="#F0883E"/>
-    <text x="758" y="616">待验证 1 个：需 --experimental</text>
-    <text x="1144" y="616" text-anchor="end" fill="#E6E9F0">重跑 <tspan fill="#7EE787">install</tspan> 原地更新 · <tspan fill="#F0883E">remove</tspan> 整块撤除</text>
+    <text x="56" y="612" fill="#5C6577">证据档</text>
+    <circle cx="131" cy="606" r="5" fill="#7EE787"/>
+    <text x="147" y="612">local 14 个：路径核实自已安装代码</text>
+    <circle cx="457" cy="606" r="5" fill="#79C0FF"/>
+    <text x="473" y="612">docs 11 个：来自官方文档</text>
+    <circle cx="702" cy="606" r="5" fill="#F0883E"/>
+    <text x="718" y="612">待验证 1 个：需 --experimental</text>
+    <text x="56" y="644" fill="#E6E9F0">重跑 <tspan fill="#7EE787">install</tspan> 原地更新 · <tspan fill="#F0883E">remove</tspan> 整块撤除</text>
+    <text x="1144" y="644" text-anchor="end" fill="#5C6577">只写用户目录 · 不联网 · 无第三方依赖</text>
   </g>
 </svg>

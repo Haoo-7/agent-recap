@@ -26,7 +26,7 @@
     <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" fill="#C6CEDD">
       <text x="84" y="278">~/.claude/CLAUDE.md      ~/.codex/AGENTS.md</text>
       <text x="84" y="306">~/.pi/agent/AGENTS.md    ~/.qoder-cn/AGENTS.md</text>
-      <text x="84" y="334">~/.hermes/SOUL.md        ~/.copilot/copilot-instructions.md</text>
+      <text x="84" y="334">~/.hermes/SOUL.md    ~/.copilot/copilot-instructions.md</text>
       <text x="84" y="362" fill="#8B93A7">+ ~/.agents/AGENTS.md convention · nothing for absent tools</text>
     </g>
   </g>
@@ -42,7 +42,7 @@
     <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" fill="#C6CEDD">
       <text x="84" y="496">~/.cursor/rules/recap.mdc</text>
       <text x="84" y="524">~/.roo/rules/recap.md      ~/.kiro/steering/recap.md</text>
-      <text x="84" y="552" fill="#8B93A7">Cursor applies it via alwaysApply: true, beside your own rules</text>
+      <text x="84" y="552" fill="#8B93A7">Cursor applies it via alwaysApply: true, beside your rules</text>
     </g>
   </g>
 
@@ -73,13 +73,14 @@
 
   <!-- evidence tiers -->
   <g id="flow-tiers" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="17" fill="#8B93A7">
-    <text x="56" y="616" fill="#5C6577">Evidence</text>
-    <circle cx="158" cy="610" r="5" fill="#7EE787"/>
-    <text x="174" y="616">local 14: path read out of installed code</text>
-    <circle cx="524" cy="610" r="5" fill="#79C0FF"/>
-    <text x="540" y="616">docs 11: from official docs</text>
-    <circle cx="786" cy="610" r="5" fill="#F0883E"/>
-    <text x="802" y="616">unverified 1: needs --experimental</text>
-    <text x="1144" y="616" text-anchor="end" fill="#E6E9F0">re-run <tspan fill="#7EE787">install</tspan> in place · <tspan fill="#F0883E">remove</tspan> strips it</text>
+    <text x="56" y="612" fill="#5C6577">Evidence</text>
+    <circle cx="155" cy="606" r="5" fill="#7EE787"/>
+    <text x="171" y="612">local 14: verified against installed code</text>
+    <circle cx="551" cy="606" r="5" fill="#79C0FF"/>
+    <text x="567" y="612">docs 11: from official docs</text>
+    <circle cx="820" cy="606" r="5" fill="#F0883E"/>
+    <text x="836" y="612">unverified 1: opt-in</text>
+    <text x="56" y="644" fill="#E6E9F0">re-run <tspan fill="#7EE787">install</tspan> updates in place · <tspan fill="#F0883E">remove</tspan> strips the whole block</text>
+    <text x="1144" y="644" text-anchor="end" fill="#5C6577">home directory only · no network</text>
   </g>
 </svg>
