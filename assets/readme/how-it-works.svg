@@ -1,34 +1,77 @@
 <svg xmlns="http://www.w3.org/2000/svg"
-     width="1200" height="208" viewBox="0 0 1200 208"
+     width="1200" height="540" viewBox="0 0 1200 540"
      role="img" aria-labelledby="flow-title flow-desc">
-  <title id="flow-title">agent-recap 工作方式</title>
-  <desc id="flow-desc">三个命令：install 检测本机 agent 并写入各自原生机制，status 查看覆盖状态，remove 撤除全部受管内容；所有改动都落在标记区块内。</desc>
+  <title id="flow-title">agent-recap 怎样落到每个 agent</title>
+  <desc id="flow-desc">install 检测本机装了哪些 agent，按各自的原生机制写入 8 个落点：OpenCode 插件、各家全局指令文件、dsh profile patch、以及跨 agent 的 AGENTS.md 约定兜底。所有改动都落在 recap:begin 与 recap:end 标记之间，重跑是原地更新，remove 整块撤除。</desc>
 
-  <rect width="1200" height="208" rx="18" fill="#0B0E14"/>
-  <text x="56" y="46" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" letter-spacing="2" fill="#8B93A7">HOW IT WORKS</text>
+  <rect width="1200" height="540" rx="18" fill="#0B0E14"/>
 
-  <!-- 三个命令 -->
-  <g id="flow-cmd-install" transform="translate(56 66)">
-    <rect width="336" height="86" rx="10" fill="#11151F" stroke="#262C3A"/>
-    <text x="24" y="38" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="22" fill="#7EE787">$ install</text>
-    <text x="24" y="66" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="18" fill="#8B93A7">检测本机 agent，逐个写入</text>
+  <text x="56" y="76" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="27" font-weight="700" fill="#E6E9F0">一条命令，落到 8 个不同的原生位置</text>
+
+  <!-- 命令条 -->
+  <g id="flow-cmd">
+    <rect x="56" y="104" width="1088" height="56" rx="10" fill="#11151F" stroke="#242B39"/>
+    <text x="84" y="139" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20"><tspan fill="#7EE787">$</tspan><tspan fill="#E6E9F0"> node scripts/recap.mjs install</tspan></text>
+    <text x="1116" y="139" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="18" fill="#8B93A7">检测本机装了哪些 agent，逐个写入</text>
   </g>
 
-  <path d="M400 109 L424 109 M418 103 L426 109 L418 115" fill="none" stroke="#3D4453" stroke-width="2"/>
+  <!-- 竖线 + 8 个落点 -->
+  <g id="flow-targets">
+    <line x1="76" y1="186" x2="76" y2="470" stroke="#242B39"/>
+    <line x1="76" y1="206" x2="96" y2="206" stroke="#242B39"/>
+    <line x1="76" y1="244" x2="96" y2="244" stroke="#242B39"/>
+    <line x1="76" y1="282" x2="96" y2="282" stroke="#242B39"/>
+    <line x1="76" y1="320" x2="96" y2="320" stroke="#242B39"/>
+    <line x1="76" y1="358" x2="96" y2="358" stroke="#242B39"/>
+    <line x1="76" y1="396" x2="96" y2="396" stroke="#242B39"/>
+    <line x1="76" y1="434" x2="96" y2="434" stroke="#242B39"/>
+    <line x1="76" y1="470" x2="96" y2="470" stroke="#242B39"/>
 
-  <g id="flow-cmd-status" transform="translate(432 66)">
-    <rect width="336" height="86" rx="10" fill="#11151F" stroke="#262C3A"/>
-    <text x="24" y="38" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="22" fill="#79C0FF">$ status</text>
-    <text x="24" y="66" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="18" fill="#8B93A7">查看每台 agent 的覆盖状态</text>
+    <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+      <circle cx="104" cy="200" r="5" fill="#7EE787"/><text x="122" y="206" font-size="20" fill="#E6E9F0">opencode</text>
+      <circle cx="104" cy="238" r="5" fill="#79C0FF"/><text x="122" y="244" font-size="20" fill="#E6E9F0">claude</text>
+      <circle cx="104" cy="276" r="5" fill="#79C0FF"/><text x="122" y="282" font-size="20" fill="#E6E9F0">codex</text>
+      <circle cx="104" cy="314" r="5" fill="#79C0FF"/><text x="122" y="320" font-size="20" fill="#E6E9F0">grok</text>
+      <circle cx="104" cy="352" r="5" fill="#79C0FF"/><text x="122" y="358" font-size="20" fill="#E6E9F0">kimi</text>
+      <circle cx="104" cy="390" r="5" fill="#79C0FF"/><text x="122" y="396" font-size="20" fill="#E6E9F0">gemini</text>
+      <circle cx="104" cy="428" r="5" fill="#7EE787"/><text x="122" y="434" font-size="20" fill="#E6E9F0">dsh</text>
+      <circle cx="104" cy="464" r="5" fill="#F0883E"/><text x="122" y="470" font-size="20" fill="#E6E9F0">agents-convention</text>
+    </g>
+
+    <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" fill="#8B93A7">
+      <text x="344" y="206">~/.config/opencode/plugins/recap-line.js</text>
+      <text x="344" y="244">~/.claude/CLAUDE.md</text>
+      <text x="344" y="282">~/.codex/AGENTS.md</text>
+      <text x="344" y="320">~/.grok/AGENTS.md</text>
+      <text x="344" y="358">~/.kimi-code/AGENTS.md</text>
+      <text x="344" y="396">~/.gemini/GEMINI.md</text>
+      <text x="344" y="434">~/.dsh/profiles/*/cordis.patch.yml</text>
+      <text x="344" y="470">~/.agents/AGENTS.md</text>
+    </g>
   </g>
 
-  <path d="M776 109 L800 109 M794 103 L802 109 L794 115" fill="none" stroke="#3D4453" stroke-width="2"/>
+  <!-- 右：标记区块 -->
+  <g id="flow-block">
+    <rect x="808" y="186" width="336" height="200" rx="10" fill="#11151F" stroke="#242B39"/>
+    <text x="832" y="216" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" fill="#7EE787">&lt;!-- recap:begin --&gt;</text>
+    <text x="832" y="244" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" fill="#C6CEDD">## Reply Closing</text>
+    <text x="832" y="272" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" fill="#8B93A7">- 每条实质回复结尾一行</text>
+    <text x="850" y="298" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" fill="#8B93A7">&#8220;🏁 recap: &#8230;&#8221;</text>
+    <text x="832" y="324" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" fill="#8B93A7">- 再来一行 &#8220;Next: &#8230;&#8221;</text>
+    <text x="832" y="356" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" fill="#7EE787">&lt;!-- recap:end --&gt;</text>
 
-  <g id="flow-cmd-remove" transform="translate(808 66)">
-    <rect width="336" height="86" rx="10" fill="#11151F" stroke="#262C3A"/>
-    <text x="24" y="38" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="22" fill="#F0883E">$ remove</text>
-    <text x="24" y="66" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="18" fill="#8B93A7">撤除全部受管内容，不留残渣</text>
+    <text x="832" y="424" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="18" fill="#E6E9F0">重跑 <tspan fill="#7EE787">install</tspan> = 原地更新</text>
+    <text x="832" y="454" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="18" fill="#E6E9F0">跑一次 <tspan fill="#F0883E">remove</tspan> = 整块撤除</text>
   </g>
 
-  <text x="600" y="182" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" fill="#5C6577">所有改动落在 &lt;!-- recap:begin --&gt; 与 &lt;!-- recap:end --&gt; 之间：重跑是更新，不是叠加</text>
+  <!-- 图例 -->
+  <g id="flow-legend" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="17" fill="#8B93A7">
+    <text x="56" y="510" fill="#5C6577">覆盖强度</text>
+    <circle cx="164" cy="504" r="5" fill="#7EE787"/>
+    <text x="180" y="510">每次请求注入系统提示</text>
+    <circle cx="424" cy="504" r="5" fill="#79C0FF"/>
+    <text x="440" y="510">启动时加载的指令文件</text>
+    <circle cx="672" cy="504" r="5" fill="#F0883E"/>
+    <text x="688" y="510">只覆盖读约定的 agent</text>
+  </g>
 </svg>
