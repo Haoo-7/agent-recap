@@ -4,6 +4,10 @@
   <img src="./assets/readme/hero.svg" width="100%" alt="agent-recap：给一台机器上装了多个 AI coding agent 的人，每条回复结尾固定两行——🏁 recap 说这轮做了什么，Next 说下一步。适配 opencode、claude、codex、grok、kimi、gemini、dsh 和 AGENTS.md 约定，共 8 个落点，一条命令装完，无第三方依赖。">
 </p>
 
+<p align="center">
+  <b>中文</b> · <a href="#english">English</a>
+</p>
+
 ## 有什么用
 
 给这台机器上所有 AI coding agent 装上同一条收尾规则：每条有实质内容的回复结尾，附一行 `🏁 recap:` 说明这轮在做什么、为什么，再加一行 `Next:` 说明当前状态、阻塞或下一步。
@@ -85,4 +89,111 @@ node scripts/recap.mjs remove     # 撤除全部受管内容
 ```bash
 node --test tests/recap.test.mjs    # 生命周期回归：安装、幂等、改配置、卸载
 node scripts/recap.mjs status       # 查看本机覆盖情况
+```
+
+---
+
+## English
+
+<p align="center">
+  <img src="./assets/readme/hero-en.svg" width="100%" alt="agent-recap: for anyone running several AI coding agents on one machine, every reply ends with two fixed lines — a 🏁 recap line saying what the turn did, and a Next line saying what comes next. Adapters for opencode, claude, codex, grok, kimi, gemini, dsh and the AGENTS.md convention: 8 targets, one command, no third-party dependencies.">
+</p>
+
+> Chinese is the primary language of this document; the sections above are the reference version.
+
+### What it does
+
+For people who run several AI coding agents on one machine: every substantive reply ends with
+two fixed lines — a `🏁 recap:` line saying what the turn did and why, and a `Next:` line with
+the current state, blocker, or next step.
+
+Without it, each agent has its own reply style, long answers leave you guessing what happened
+and what comes next, and unifying them means finding each agent's global instruction file and
+checking whether the format is even supported. With it, one command detects which agents are
+installed, writes through each agent's native mechanism, updates in place on re-run instead of
+appending duplicates, and one command removes everything.
+
+### How it works
+
+<p align="center">
+  <img src="./assets/readme/how-it-works-en.svg" width="100%" alt="install writes into 8 targets: the opencode plugin recap-line.js, the global instruction files of claude, codex, grok, kimi and gemini, the dsh profile patch, and the ~/.agents/AGENTS.md convention fallback; every change stays between the recap:begin and recap:end markers, so re-running install updates in place and remove strips the whole block.">
+</p>
+
+| Agent | Target | Native mechanism |
+|---|---|---|
+| OpenCode | `~/.config/opencode/plugins/recap-line.js` | Plugin hook that appends the rules to the system prompt on every request |
+| Claude Code | `~/.claude/CLAUDE.md` | Global user instructions |
+| Codex | `~/.codex/AGENTS.md` | Global rules file |
+| Grok | `~/.grok/AGENTS.md` | Global rules file |
+| Kimi Code | `~/.kimi-code/AGENTS.md` | Global instructions collected at startup |
+| Gemini CLI | `~/.gemini/GEMINI.md` | Global context file (inferred from convention, not verified on a real install) |
+| dsh | `~/.dsh/profiles/*/cordis.patch.yml` | `personaSuffix` of the `system-prompt` plugin, one entry per profile |
+| AGENTS.md fallback | `~/.agents/AGENTS.md` | Cross-agent AGENTS.md convention |
+
+Coverage comes in three strengths: the OpenCode plugin and the dsh patch inject the rules into
+the system prompt on every request; the other five are instruction files loaded at agent
+startup, so they are advisory; `~/.agents/AGENTS.md` only reaches tools that read that
+convention. Per-adapter verification and drift risk: `references/adapters.md`.
+
+### Install
+
+```bash
+npx skills add Haoo-7/agent-recap
+```
+
+Or just hand the repository URL to your agent and ask it to install the Skill:
+`https://github.com/Haoo-7/agent-recap`
+
+`npx` is needed for installation only. The Skill itself runs on Node.js — no network, no
+third-party packages.
+
+### Configuration
+
+Nothing to configure on first use. Default prefix `🏁 recap:`, two-sentence cap. To change the
+format: edit `CONFIG` at the top of `scripts/recap.mjs` (`prefix`, `nextLabel`,
+`maxSentences`) and re-run install — every agent updates in place.
+
+### Usage
+
+Trigger it in natural language, for example:
+
+- "From now on every agent reply ends with a recap line"
+- "Change the prefix to 🎯 and allow three sentences"
+- "Remove all recap lines"
+
+Common commands (run inside the Skill directory):
+
+```bash
+node scripts/recap.mjs install    # detect installed agents and write each one
+node scripts/recap.mjs status     # per-agent coverage
+node scripts/recap.mjs remove     # strip everything this skill manages
+```
+
+Every subcommand accepts `--dry-run`, which prints the plan without writing. Each agent needs
+a restart before the change takes effect.
+
+### Compatibility and dependencies
+
+- Any recent Node.js; standard library only.
+- Tested on macOS; Windows / Linux untested (the script uses no platform-specific commands and
+  is expected to work).
+- Verification status, target agent version, and drift risk per adapter in
+  `references/adapters.md`; unverified adapters are best effort.
+
+### Data and limits
+
+- Writes only inside the user's home directory. Never reads conversation content, never touches
+  credentials, never makes network calls.
+- Only replaces what is between `<!-- recap:begin -->` and `<!-- recap:end -->`. A foreign file
+  sharing a managed path is backed up first, never deleted.
+- An agent with no instruction file gets one created; OpenCode additionally gets the plugin
+  file. `remove` deletes only this managed content.
+- Out of scope: one-off summaries of the current conversation, changing any other reply
+  behavior, hand-editing one agent's configuration.
+
+### Tests
+
+```bash
+node --test tests/recap.test.mjs    # lifecycle: install, idempotency, config change, removal
+node scripts/recap.mjs status       # local coverage
 ```

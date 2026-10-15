@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1200" height="540" viewBox="0 0 1200 540"
+     role="img" aria-labelledby="flow-en-title flow-en-desc">
+  <title id="flow-en-title">How agent-recap lands in each agent</title>
+  <desc id="flow-en-desc">install detects which agents are on this machine and writes through each one's native mechanism into 8 targets: the OpenCode plugin, the global instruction files, the dsh profile patch, and the cross-agent AGENTS.md convention fallback. Every change stays inside the recap:begin and recap:end markers, so re-running updates in place and remove strips the whole block.</desc>
+
+  <rect width="1200" height="540" rx="18" fill="#0B0E14"/>
+
+  <text x="56" y="76" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="27" font-weight="700" fill="#E6E9F0">One command, written into 8 different native places</text>
+
+  <!-- command bar -->
+  <g id="flow-en-cmd">
+    <rect x="56" y="104" width="1088" height="56" rx="10" fill="#11151F" stroke="#242B39"/>
+    <text x="84" y="139" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20"><tspan fill="#7EE787">$</tspan><tspan fill="#E6E9F0"> node scripts/recap.mjs install</tspan></text>
+    <text x="1116" y="139" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="18" fill="#8B93A7">Detects the installed agents, then writes each one</text>
+  </g>
+
+  <!-- spine + 8 targets -->
+  <g id="flow-en-targets">
+    <line x1="76" y1="186" x2="76" y2="470" stroke="#242B39"/>
+    <line x1="76" y1="206" x2="96" y2="206" stroke="#242B39"/>
+    <line x1="76" y1="244" x2="96" y2="244" stroke="#242B39"/>
+    <line x1="76" y1="282" x2="96" y2="282" stroke="#242B39"/>
+    <line x1="76" y1="320" x2="96" y2="320" stroke="#242B39"/>
+    <line x1="76" y1="358" x2="96" y2="358" stroke="#242B39"/>
+    <line x1="76" y1="396" x2="96" y2="396" stroke="#242B39"/>
+    <line x1="76" y1="434" x2="96" y2="434" stroke="#242B39"/>
+    <line x1="76" y1="470" x2="96" y2="470" stroke="#242B39"/>
+
+    <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace">
+      <circle cx="104" cy="200" r="5" fill="#7EE787"/><text x="122" y="206" font-size="20" fill="#E6E9F0">opencode</text>
+      <circle cx="104" cy="238" r="5" fill="#79C0FF"/><text x="122" y="244" font-size="20" fill="#E6E9F0">claude</text>
+      <circle cx="104" cy="276" r="5" fill="#79C0FF"/><text x="122" y="282" font-size="20" fill="#E6E9F0">codex</text>
+      <circle cx="104" cy="314" r="5" fill="#79C0FF"/><text x="122" y="320" font-size="20" fill="#E6E9F0">grok</text>
+      <circle cx="104" cy="352" r="5" fill="#79C0FF"/><text x="122" y="358" font-size="20" fill="#E6E9F0">kimi</text>
+      <circle cx="104" cy="390" r="5" fill="#79C0FF"/><text x="122" y="396" font-size="20" fill="#E6E9F0">gemini</text>
+      <circle cx="104" cy="428" r="5" fill="#7EE787"/><text x="122" y="434" font-size="20" fill="#E6E9F0">dsh</text>
+      <circle cx="104" cy="464" r="5" fill="#F0883E"/><text x="122" y="470" font-size="20" fill="#E6E9F0">agents-convention</text>
+    </g>
+
+    <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18" fill="#8B93A7">
+      <text x="344" y="206">~/.config/opencode/plugins/recap-line.js</text>
+      <text x="344" y="244">~/.claude/CLAUDE.md</text>
+      <text x="344" y="282">~/.codex/AGENTS.md</text>
+      <text x="344" y="320">~/.grok/AGENTS.md</text>
+      <text x="344" y="358">~/.kimi-code/AGENTS.md</text>
+      <text x="344" y="396">~/.gemini/GEMINI.md</text>
+      <text x="344" y="434">~/.dsh/profiles/*/cordis.patch.yml</text>
+      <text x="344" y="470">~/.agents/AGENTS.md</text>
+    </g>
+  </g>
+
+  <!-- right: the marked block -->
+  <g id="flow-en-block">
+    <rect x="808" y="186" width="336" height="200" rx="10" fill="#11151F" stroke="#242B39"/>
+    <text x="832" y="216" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" fill="#7EE787">&lt;!-- recap:begin --&gt;</text>
+    <text x="832" y="242" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" fill="#C6CEDD">## Reply Closing</text>
+    <text x="832" y="268" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" fill="#8B93A7">- end every substantive reply</text>
+    <text x="850" y="292" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" fill="#8B93A7">&#8220;🏁 recap: what the turn did&#8221;</text>
+    <text x="832" y="316" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" fill="#8B93A7">- then one more line</text>
+    <text x="850" y="340" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" fill="#8B93A7">&#8220;Next: what comes next&#8221;</text>
+    <text x="832" y="368" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" fill="#7EE787">&lt;!-- recap:end --&gt;</text>
+
+    <text x="832" y="424" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="17" fill="#E6E9F0">Re-run <tspan fill="#7EE787">install</tspan> = update in place</text>
+    <text x="832" y="454" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="17" fill="#E6E9F0">Run <tspan fill="#F0883E">remove</tspan> = strip the whole block</text>
+  </g>
+
+  <!-- legend -->
+  <g id="flow-en-legend" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, sans-serif" font-size="17" fill="#8B93A7">
+    <text x="56" y="510" fill="#5C6577">Coverage strength</text>
+    <circle cx="216" cy="504" r="5" fill="#7EE787"/>
+    <text x="232" y="510">injected per request</text>
+    <circle cx="452" cy="504" r="5" fill="#79C0FF"/>
+    <text x="468" y="510">loaded at startup</text>
+    <circle cx="660" cy="504" r="5" fill="#F0883E"/>
+    <text x="676" y="510">only agents that read the convention</text>
+  </g>
+</svg>
