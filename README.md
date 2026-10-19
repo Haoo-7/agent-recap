@@ -1,7 +1,7 @@
 # agent-recap
 
 <p align="center">
-  <img src="./assets/readme/hero.svg" width="100%" alt="agent-recap：给一台机器上装了多个 AI coding agent 的人，每条回复结尾固定两行——🏁 recap 说这轮做了什么，➡️ Next 说下一步。26 个 harness 落点，按各自原生机制写入：OpenCode、Claude Code、Codex、Gemini CLI、Grok、Kimi Code、dsh、pi、Command Code、Qoder CLI、Cursor CLI、Antigravity、Hermes、misaka、GitHub Copilot CLI、Qwen Code、Crush、Amp、Zed、Devin、Goose、Windsurf、Roo Code、Kiro CLI、CodeBuddy，外加 AGENTS.md 约定兜底。一条命令装完，无第三方依赖。">
+  <img src="./assets/readme/hero.svg" width="100%" alt="agent-recap：给一台机器上装了多个 AI coding agent 的人，每条回复结尾固定两行——🏁 recap 说这轮做了什么，➡️ Next 说下一步，上方带一条 --- 分隔线。32 个 harness 落点，按各自原生机制写入：OpenCode、Claude Code、Codex、Gemini CLI、Grok、Kimi Code、dsh、pi、Command Code、Qoder CLI、WorkBuddy、Cursor CLI、Antigravity、Hermes、misaka、Cline、GitHub Copilot CLI、Qwen Code、Crush、Amp、Zed、Devin、Goose、Windsurf、Roo Code、Kiro CLI、Trae、Kilo Code、Continue、ZCode、CodeBuddy，外加 AGENTS.md 约定兜底。一条命令装完，无第三方依赖。">
 </p>
 
 <p align="center">
@@ -10,7 +10,7 @@
 
 ## 有什么用
 
-给这台机器上所有 AI coding agent 装上同一条收尾规则：每条有实质内容的回复结尾，附一行 `🏁 **recap:**` 说明这轮在做什么、为什么，再加一行 `➡️ **Next:**` 说明当前状态、阻塞或下一步。
+给这台机器上所有 AI coding agent 装上同一条收尾规则：每条有实质内容的回复结尾，附一行 `🏁 **recap:**` 说明这轮在做什么、为什么，再加一行 `➡️ **Next:**` 说明当前状态、阻塞或下一步；收尾区块上方默认有一条 `---` 分隔线。
 
 不装这个 Skill 时：每个 agent 的回复风格各不相同，长篇回复看完不知道干了什么、下一步该干什么；想统一就得逐台查它的全局指令文件写在哪、格式是否兼容，漏一个就是一个例外。装好之后：一条命令检测本机装了哪些 agent，按各自的原生机制写入，重复执行是原地更新不会叠加，一条命令全体撤除。
 
@@ -34,6 +34,9 @@
 | pi | `~/.pi/agent/AGENTS.md` | 全局指令文件 | local，headless 实测已生效 |
 | Command Code | `~/.commandcode/AGENTS.md` | 全局 user memory | local，headless 实测已生效 |
 | Qoder CLI | `~/.qoder/AGENTS.md` 或 `~/.qoder-cn/AGENTS.md` | 全局 memory 文件 | local，headless 实测已生效 |
+| WorkBuddy | `~/.workbuddy/SOUL.md` | 全局人设文件，首轮作为 `SoulContent` 注入 | local，安装包与运行日志核实 |
+| Cline | `~/Documents/Cline/Rules/recap.md` | 全局 rules 目录，本 Skill 自持一个文件 | local，安装包二进制核实 |
+| ZCode | `~/.zcode/AGENTS.md` | 用户级指令文件，会先于工作区 AGENTS.md 合并 | local，安装包与本地配置核实 |
 | Cursor CLI | `~/.cursor/rules/recap.mdc` | scope 为 user 的 `.mdc` 规则，`alwaysApply: true`；**`~/.cursor/AGENTS.md` 不会被读取** | local |
 | Antigravity | `~/.gemini/config/AGENTS.md` | 全局 customization root 下的规则文件 | local |
 | Hermes | `~/.hermes/SOUL.md` | 身份文件，系统提示的第一槽位 | local |
@@ -54,8 +57,11 @@
 | Windsurf Cascade | `~/.codeium/windsurf/memories/global_rules.md`（该文件有 6000 字符上限） |
 | Roo Code | `~/.roo/rules/recap.md`（本 Skill 自持一个文件，不动你写的规则） |
 | Kiro CLI | `~/.kiro/steering/recap.md` |
+| Trae | `~/.trae-cn/user_rules/recap.md`（IDE）和 `~/.trae-cn/rules/recap.md`（CLI）；国际版对应 `~/.trae`，两个目录都存在时都写 |
+| Kilo Code | `~/.kilocode/rules/recap.md`；旧的 `~/.config/kilo/kilo.jsonc` instructions 配置项不是可维护的规则文件 |
+| Continue | `~/.continue/rules/recap.md`；旧版 VS Code 扩展有忽略规则的已知问题，按建议级处理 |
 
-覆盖强度分三档：OpenCode 插件和 dsh 的 patch 每次请求注入系统提示；其余是 agent 启动时加载的指令文件，属于建议级；`~/.agents/AGENTS.md` 只覆盖会读这个约定的工具。证据分档（`local` = 从该工具已安装的代码里核实出来的路径，`docs` = 官方文档，`unverified` = 需 `--experimental` 才写）、每个适配器的取证依据和漂移风险见 `references/adapters.md`。iFlow 已停服、Amazon Q CLI 已改名 Kiro、Kilo 只能用配置项、Trae 国内外路径不一致，这些**故意不收录**。
+覆盖强度分三档：OpenCode 插件和 dsh 的 patch 每次请求注入系统提示；其余是 agent 启动时加载的指令文件，属于建议级；`~/.agents/AGENTS.md` 只覆盖会读这个约定的工具。证据分档（`local` = 从该工具已安装的代码里核实出来的路径，`docs` = 官方文档，`unverified` = 需 `--experimental` 才写）、每个适配器的取证依据和漂移风险见 `references/adapters.md`。iFlow 已停服、Amazon Q CLI 已改名 Kiro，这些**故意不收录**；Trae 的 IDE 与 CLI 文档对全局规则目录写法不同，本 Skill 会写入所有已存在的目录。WorkBuddy 的 UI 全局规则存在它自己的数据存储里，`SOUL.md` 是稳定的明文落点。
 
 ## 安装
 
@@ -75,7 +81,7 @@
 
 ## 配置
 
-首次使用无需任何配置。默认 `🏁 **recap:**` 和 `➡️ **Next:**` 两行标签（均加粗）、两句话上限。想改格式：编辑 `scripts/recap.mjs` 顶部的 `CONFIG`（`prefix`、`nextLabel`、`maxSentences`），重跑一次 install，所有 agent 原地更新。
+首次使用无需任何配置。默认 `---` 分隔线 + `🏁 **recap:**` 和 `➡️ **Next:**` 两行标签（均加粗）、两句话上限。想改格式：编辑 `scripts/recap.mjs` 顶部的 `CONFIG`（`prefix`、`nextLabel`、`separator`、`maxSentences`），重跑一次 install，所有 agent 原地更新；把 `separator` 设为空字符串即可去掉分隔线。
 
 ## 使用
 
@@ -124,7 +130,7 @@ node scripts/recap.mjs status       # 查看本机覆盖情况
 ## English
 
 <p align="center">
-  <img src="./assets/readme/hero-en.svg" width="100%" alt="agent-recap: for anyone running several AI coding agents on one machine, every reply ends with two fixed lines — a 🏁 recap line saying what the turn did, and a ➡️ Next line saying what comes next. 26 harness targets, each written through its own native mechanism: OpenCode, Claude Code, Codex, Gemini CLI, Grok, Kimi Code, dsh, pi, Command Code, Qoder CLI, Cursor CLI, Antigravity, Hermes, misaka, GitHub Copilot CLI, Qwen Code, Crush, Amp, Zed, Devin, Goose, Windsurf, Roo Code, Kiro CLI and CodeBuddy, plus the AGENTS.md convention fallback. One command, no third-party dependencies.">
+  <img src="./assets/readme/hero-en.svg" width="100%" alt="agent-recap: for anyone running several AI coding agents on one machine, every reply ends with two fixed lines — a 🏁 recap line saying what the turn did, and a ➡️ Next line saying what comes next, preceded by a --- divider. 32 harness targets, each written through its own native mechanism: OpenCode, Claude Code, Codex, Gemini CLI, Grok, Kimi Code, dsh, pi, Command Code, Qoder CLI, WorkBuddy, Cursor CLI, Antigravity, Hermes, misaka, Cline, GitHub Copilot CLI, Qwen Code, Crush, Amp, Zed, Devin, Goose, Windsurf, Roo Code, Kiro CLI, Trae, Kilo Code, Continue, ZCode and CodeBuddy, plus the AGENTS.md convention fallback. One command, no third-party dependencies.">
 </p>
 
 > Chinese is the primary language of this document; the sections above are the reference version.
@@ -133,7 +139,7 @@ node scripts/recap.mjs status       # 查看本机覆盖情况
 
 For people who run several AI coding agents on one machine: every substantive reply ends with
 two fixed lines — a `🏁 **recap:**` line saying what the turn did and why, and a `➡️ **Next:**` line with
-the current state, blocker, or next step. Both labels are bold.
+the current state, blocker, or next step. Both labels are bold, and a `---` divider sits above the block.
 
 Without it, each agent has its own reply style, long answers leave you guessing what happened
 and what comes next, and unifying them means finding each agent's global instruction file and
@@ -161,6 +167,9 @@ appending duplicates, and one command removes everything.
 | pi | `~/.pi/agent/AGENTS.md` | Global instructions file | local, confirmed headless |
 | Command Code | `~/.commandcode/AGENTS.md` | Global user memory | local, confirmed headless |
 | Qoder CLI | `~/.qoder/AGENTS.md` or `~/.qoder-cn/AGENTS.md` | Global memory file | local, confirmed headless |
+| WorkBuddy | `~/.workbuddy/SOUL.md` | Global persona file, injected as `SoulContent` on the first turn | local, verified from the bundle and runtime logs |
+| Cline | `~/Documents/Cline/Rules/recap.md` | Global rules directory; this skill owns one file there | local, verified from the installed binary |
+| ZCode | `~/.zcode/AGENTS.md` | User-level instruction file, merged before the workspace AGENTS.md | local, verified from the bundle and local config |
 | Cursor CLI | `~/.cursor/rules/recap.mdc` | Scope-`user` `.mdc` rule with `alwaysApply: true`; **`~/.cursor/AGENTS.md` is not read** | local |
 | Antigravity | `~/.gemini/config/AGENTS.md` | Rule file in the global customization root | local |
 | Hermes | `~/.hermes/SOUL.md` | Identity file, system-prompt slot #1 | local |
@@ -181,15 +190,20 @@ appending duplicates, and one command removes everything.
 | Windsurf Cascade | `~/.codeium/windsurf/memories/global_rules.md` (that file is capped at 6,000 characters) |
 | Roo Code | `~/.roo/rules/recap.md` (this skill owns the file, never your rules) |
 | Kiro CLI | `~/.kiro/steering/recap.md` |
+| Trae | `~/.trae-cn/user_rules/recap.md` (IDE) and `~/.trae-cn/rules/recap.md` (CLI); international builds use `~/.trae` — every existing dir is written |
+| Kilo Code | `~/.kilocode/rules/recap.md`; the legacy `instructions` key in `~/.config/kilo/kilo.jsonc` is a config key, not a maintainable rules file |
+| Continue | `~/.continue/rules/recap.md`; older VS Code builds ignored rules, so this is advisory |
 
 Coverage comes in three strengths: the OpenCode plugin and the dsh patch inject the rules into
 the system prompt on every request; everything else is an instruction file loaded at agent
 startup, so it is advisory; `~/.agents/AGENTS.md` only reaches tools that read that convention.
 Evidence tiers — `local` (path read out of that tool's installed code), `docs` (official
 documentation) and `unverified` (written only with `--experimental`) — plus the basis for every
-adapter and its drift risks are in `references/adapters.md`. iFlow is shut down, the Amazon Q
-CLI became Kiro, Kilo only offers a config key, and Trae's CN and international paths differ:
-those are deliberately **not** included.
+adapter and its drift risks are in `references/adapters.md`. iFlow is shut down and the Amazon Q
+CLI became Kiro: those are deliberately **not** included.
+Trae's IDE and CLI docs name different global rules dirs, so this skill writes every one that
+already exists. WorkBuddy's UI global rules live in its own data store; `SOUL.md` is the stable
+plain-file slot.
 
 ### Install
 
@@ -205,9 +219,10 @@ third-party packages.
 
 ### Configuration
 
-Nothing to configure on first use. Default labels `🏁 **recap:**` and `➡️ **Next:**`, both bold, a
-two-sentence cap. To change the format: edit `CONFIG` at the top of `scripts/recap.mjs`
-(`prefix`, `nextLabel`, `maxSentences`) and re-run install — every agent updates in place.
+Nothing to configure on first use. Default `---` divider plus labels `🏁 **recap:**` and
+`➡️ **Next:**`, both bold, a two-sentence cap. To change the format: edit `CONFIG` at the top of
+`scripts/recap.mjs` (`prefix`, `nextLabel`, `separator`, `maxSentences`) and re-run install —
+every agent updates in place. Set `separator` to `''` to drop the divider.
 
 ### Usage
 

@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg"
-     width="1200" height="500" viewBox="0 0 1200 500"
+     width="1200" height="540" viewBox="0 0 1200 540"
      role="img" aria-labelledby="hero-title hero-desc">
   <title id="hero-title">agent-recap</title>
-  <desc id="hero-desc">写给一台机器上装了多个 AI coding agent 的人：每条有实质内容的回复结尾固定两行，🏁 recap 说这轮做了什么，Next 说下一步。26 个 harness 落点，按各自原生机制写入。下方的标本是规则要求的收尾格式。</desc>
+  <desc id="hero-desc">写给一台机器上装了多个 AI coding agent 的人：每条有实质内容的回复结尾固定两行，上方一条 --- 分隔线，🏁 recap 说这轮做了什么，➡️ Next 说下一步。32 个 harness 落点，按各自原生机制写入。下方的标本是规则要求的收尾格式。</desc>
 
-  <rect width="1200" height="500" rx="18" fill="#0B0E14"/>
+  <rect width="1200" height="540" rx="18" fill="#0B0E14"/>
 
   <!-- 上：标题行 -->
   <g id="hero-title-block">
@@ -15,7 +15,7 @@
 
     <text x="56" y="196" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="25" fill="#E6E9F0">每条回复结尾固定两行：这轮做了什么，下一步是什么。</text>
 
-    <text x="1144" y="116" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="19" fill="#8B93A7">26 个落点 · 1 条命令 · 0 依赖</text>
+    <text x="1144" y="116" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="19" fill="#8B93A7">32 个落点 · 1 条命令 · 0 依赖</text>
     <text x="1144" y="146" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="17" fill="#5C6577">v0.2.0 · MIT · 纯 Node.js 标准库 · 不联网</text>
   </g>
 
@@ -26,17 +26,19 @@
     <text x="1116" y="272" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="16" fill="#5C6577">规则规定的收尾 · 任意 agent</text>
     <line x1="84" y1="288" x2="1116" y2="288" stroke="#242B39"/>
 
+    <text x="84" y="302" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20" fill="#8B93A7">---</text>
     <text x="84" y="326" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20"><tspan fill="#7EE787" font-weight="700">🏁 recap:</tspan><tspan fill="#E6E9F0"> Wired the recap convention into every agent.</tspan></text>
     <text x="84" y="356" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20"><tspan fill="#79C0FF" font-weight="700">➡️ Next:</tspan><tspan fill="#C6CEDD"> restart each agent, then run status to confirm coverage.</tspan><tspan fill="#7EE787">▌</tspan></text>
   </g>
 
   <!-- 底：适配清单 -->
   <g id="hero-targets" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16">
-    <text x="56" y="412" fill="#7EE787">26 个落点</text>
+    <text x="56" y="412" fill="#7EE787">32 个落点</text>
     <g fill="#8B93A7">
       <text x="240" y="412">opencode · claude · codex · grok · kimi · gemini · dsh · pi · commandcode</text>
-      <text x="240" y="440">qoder · cursor · antigravity · hermes · misaka · copilot · qwen · crush</text>
-      <text x="240" y="468">zed · devin · goose · windsurf · roo · kiro · CodeBuddy · AGENTS.md</text>
+      <text x="240" y="440">qoder · cursor · antigravity · hermes · misaka · copilot · qwen · crush · amp</text>
+      <text x="240" y="468">zed · devin · goose · windsurf · roo · kiro · cline · kilo · continue</text>
+      <text x="240" y="496">workbuddy · trae · zcode · CodeBuddy · AGENTS.md</text>
     </g>
   </g>
 </svg>

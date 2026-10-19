@@ -34,6 +34,7 @@ const SKIP = new Set(argv.filter((a) => a.startsWith('--skip='))
 const CONFIG = {
   prefix: '🏁 **recap:**',
   nextLabel: '➡️ **Next:**',
+  separator: '---',
   maxSentences: 2,
 };
 
@@ -48,6 +49,9 @@ const RULES = [
   'First sentence: what this turn was about and why, not a completion receipt like "done".',
   `Second sentence beginning "${CONFIG.nextLabel}": the immediate state, blocker, decision, or recommended next move; write "none" if there is nothing.`,
   `Keep the \`**\` markers in "${CONFIG.prefix}" and "${CONFIG.nextLabel}" exactly as written so both labels render bold.`,
+  ...(CONFIG.separator
+    ? [`Put "${CONFIG.separator}" on its own line with a blank line before and after it, immediately above the recap block.`]
+    : []),
   'Write it like a verbal handoff between collaborators: specific and context-continuing, not a status report.',
   `Keep the whole recap to at most ${CONFIG.maxSentences} sentences.`,
   'Skip greetings and pure clarifying questions.',
@@ -88,6 +92,15 @@ const underAny = (root, pairs) => {
   const hit = pairs.find(([parent]) => dir(root, parent));
   return hit ? [abs(root, hit[1])] : [];
 };
+
+// Trae's global rules dir differs by surface: the IDE docs name user_rules/ while the
+// CLI docs name rules/. When both exist, write both so either surface picks the rule up.
+function traeFiles(root, configDir) {
+  if (!dir(root, configDir)) return [];
+  const dirs = ['user_rules', 'rules'].filter((d) => dir(root, configDir, d));
+  return (dirs.length ? dirs : ['user_rules'])
+    .map((d) => abs(root, configDir, d, 'recap.md'));
+}
 
 function write(p, content) {
   if (DRY) return;
@@ -430,6 +443,13 @@ export const ADAPTERS = [
     basis: 'binary: MemoryDiscovery global memory = join(configDir, "AGENTS.md"); CN dir is .qoder-cn',
   },
   {
+    id: 'workbuddy', label: 'WorkBuddy', kind: 'md', tier: 'local', header: false,
+    detect: (h) => dir(h, '.workbuddy') || hasBin('workbuddy'),
+    files: (h) => inConfigDir(h, '.workbuddy', 'SOUL.md'),
+    basis: 'system prompt context vars SoulContent/SoulPath read from the config dir; SOUL.md is '
+      + 'the global persona slot (persona file: no heading added, remove never deletes it)',
+  },
+  {
     id: 'antigravity', label: 'Antigravity', kind: 'md', tier: 'local',
     detect: (h) => dir(h, '.gemini/antigravity') || dir(h, '.antigravity'),
     files: (h) => underAny(h, [['.gemini', '.gemini/config/AGENTS.md']]),
@@ -519,6 +539,42 @@ export const ADAPTERS = [
     files: (h) => underAny(h, [['.kiro', '.kiro/steering/recap.md']]),
     basis: 'docs: ~/.kiro/steering/*.md is the user-level steering dir (the Amazon Q CLI '
       + 'became Kiro, so ~/.aws/amazonq has no rules file)',
+  },
+  {
+    id: 'trae', label: 'Trae', kind: 'dirmd', tier: 'docs',
+    detect: (h) => dir(h, '.trae-cn') || dir(h, '.trae'),
+    files: (h) => [...traeFiles(h, '.trae-cn'), ...traeFiles(h, '.trae')],
+    basis: 'docs: global rules are ~/.trae-cn/user_rules (IDE) and ~/.trae-cn/rules (CLI); '
+      + 'international builds use ~/.trae. This skill owns recap.md inside the rules dir',
+  },
+  {
+    id: 'cline', label: 'Cline', kind: 'dirmd', tier: 'local',
+    detect: (h) => dir(h, '.cline') || dir(h, 'Documents/Cline'),
+    files: (h) => underAny(h, [['Documents/Cline', 'Documents/Cline/Rules/recap.md']]),
+    basis: 'binary: resolveGlobalRulesConfigPaths() reads ~/Documents/Cline/Rules via '
+      + 'resolveDocumentsClineDirectoryPath(); Cline also reads ~/.agents/AGENTS.md',
+  },
+  {
+    id: 'kilo', label: 'Kilo Code', kind: 'dirmd', tier: 'docs',
+    detect: (h) => dir(h, '.kilocode') || dir(h, '.config/kilo'),
+    files: (h) => (dir(h, '.kilocode') || dir(h, '.config/kilo'))
+      ? [abs(h, '.kilocode/rules/recap.md')] : [],
+    basis: 'docs: ~/.kilocode/rules/ is the global rules dir; the older JSON instructions key is '
+      + 'not a file this skill can own',
+  },
+  {
+    id: 'continue', label: 'Continue', kind: 'dirmd', tier: 'docs',
+    detect: (h) => dir(h, '.continue'),
+    files: (h) => underAny(h, [['.continue', '.continue/rules/recap.md']]),
+    basis: 'docs: ~/.continue/rules is the global rules block dir (Config YAML Reference); '
+      + 'older VS Code builds ignored rules, so treat it as advisory',
+  },
+  {
+    id: 'zcode', label: 'ZCode', kind: 'md', tier: 'local',
+    detect: (h) => dir(h, '.zcode') || hasBin('zcode'),
+    files: (h) => inConfigDir(h, '.zcode', 'AGENTS.md'),
+    basis: 'binary: getUserZcodeAgentsFilePath() = ~/.zcode/AGENTS.md; the client merges it '
+      + 'before the workspace AGENTS.md',
   },
   {
     id: 'agents-convention', label: 'AGENTS.md convention', kind: 'md', tier: 'local',

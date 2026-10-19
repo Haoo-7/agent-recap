@@ -35,6 +35,9 @@ leaving a stale claim in place.
 | pi | Global instructions file | `<home>/.pi/agent/AGENTS.md` | local | Bundle lists `AGENTS.md` as a resource file name; global dir is `~/.pi/agent`. **Runtime confirmed** (`pi --print` reproduced the rule) |
 | Command Code | Global user memory | `<home>/.commandcode/AGENTS.md` | local | Bundle `getUserMemoryPath()` = `~/.commandcode/AGENTS.md`, loaded as type `user`. **Runtime confirmed** on 1.82.3 |
 | Qoder CLI | Global memory file | `<home>/.qoder/AGENTS.md` and/or `<home>/.qoder-cn/AGENTS.md` | local | Binary `[MemoryDiscovery] Found global memory file` = `join(configDir, "AGENTS.md")`; CN builds use `.qoder-cn`. **Runtime confirmed** — the agent named the file back |
+| WorkBuddy | Global persona file, injected as `SoulContent` on the first turn | `<home>/.workbuddy/SOUL.md` | local | Bundle reads `IDENTITY.md`, `USER.md`, `SOUL.md`, `MEMORY.md` from the config dir; runtime logs list `SoulContent` / `SoulPath` in the prompt context variables. Persona file: no heading, `remove` never deletes it |
+| Cline | Global rules directory | `<home>/Documents/Cline/Rules/recap.md` | local | Binary `resolveGlobalRulesConfigPaths()` / `resolveDocumentsClineDirectoryPath()` reads `~/Documents/Cline/Rules`; Cline also reads `~/.agents/AGENTS.md` |
+| ZCode | Global instructions file | `<home>/.zcode/AGENTS.md` | local | Binary `getUserZcodeAgentsFilePath()` = `~/.zcode/AGENTS.md`; the client merges it before the workspace `AGENTS.md` |
 | Cursor CLI | User rule file in the rules dir | `<home>/.cursor/rules/recap.mdc` | local | Bundle joins `homedir()` + `.cursor/rules` for scope `user` ("applies to all your projects"). `~/.cursor/AGENTS.md` is **not** read. Runtime unverified: needs an interactive `agent login` |
 | Antigravity | Rules in the global customization root | `<home>/.gemini/config/AGENTS.md` | local | `language_server` documents `~/.gemini/config/` as the global customization root and `AGENTS.md`/`GEMINI.md` or `rules/` as its rule files |
 | Hermes | Identity file, system-prompt slot #1 | `<home>/.hermes/SOUL.md` | local | `agent/prompt_builder.py` `load_soul_md()`. Persona file: no heading is added, `remove` never deletes it |
@@ -61,6 +64,9 @@ at all happens until it is.
 | Windsurf Cascade | Global rules file | `<home>/.codeium/windsurf/memories/global_rules.md` | Documented global rules file; **this file has a 6,000-character cap** |
 | Roo Code | Global rules directory | `<home>/.roo/rules/recap.md` | `~/.roo/rules/` is the fixed global rules dir; the file is this skill's own, so removal deletes it instead of editing your rules |
 | Kiro CLI | Steering directory | `<home>/.kiro/steering/recap.md` | `~/.kiro/steering/*.md` is the user-level steering mechanism |
+| Trae | Global rules directory | `<home>/.trae-cn/user_rules/recap.md` (IDE) and `<home>/.trae-cn/rules/recap.md` (CLI); `<home>/.trae/...` for international builds | docs.trae.cn names `~/.trae-cn/user_rules` as the IDE rule dir; Volcengine's TRAE CLI docs name `~/.trae-cn/rules`. Both are written when both exist |
+| Kilo Code | Global rules directory | `<home>/.kilocode/rules/recap.md` | Docs: `~/.kilocode/rules/` is the global rules dir; the older `instructions` key in `~/.config/kilo/kilo.jsonc` is a config key, not a file we can own |
+| Continue | Global rules directory | `<home>/.continue/rules/recap.md` | Docs: Config YAML Reference lists `~/.continue/rules` as the rules block dir; older VS Code builds ignored rules, so treat it as advisory |
 | AGENTS.md convention | Cross-agent convention, installed on every machine | `<home>/.agents/AGENTS.md` | Covered above under `local` |
 
 `dirmd` adapters (Roo, Kiro) write a file the tool's rules directory owns outright, so there is
@@ -74,14 +80,8 @@ absent:
 - **iFlow CLI** (`~/.iflow/IFLOW.md`) — the product was shut down; users were told to migrate.
 - **Amazon Q Developer CLI** — no longer exists as such; the Q CLI became the Kiro CLI, and the
   old `~/.aws/amazonq/` has no rules file. Covered through Kiro.
-- **Kilo Code** — global instructions are an `instructions` array in `~/.config/kilo/kilo.jsonc`,
-  a config key, not a file we can own. `.kilocode/rules/` is project-level.
 - **OpenHands** — always-on user-level instructions have no plain file mechanism; user content
   goes through skills/microagents.
-- **Trae** — the CN docs publish `~/.trae-cn/user_rules/`, the international site is JS-rendered
-  and the two paths differ. Not shipped until the path is confirmed for both.
-- **Cline** (checked against its installed code) — no rules file: settings are a JSON with no rules key and rules
-  live in its database. Revisit if a file mechanism appears.
 - **CodeBuddy** — shipped but `unverified`, so `install` skips it without `--experimental`: the
   CLI clearly references a `CODEBUDDY.md` user memory, but the home-directory composition is
   obfuscated and was never confirmed.
@@ -91,8 +91,8 @@ absent:
 - Deterministic, injected into the system prompt on every request: the OpenCode plugin and
   the dsh `personaSuffix` override.
 - Session-level, loaded when the agent starts with advisory wording: every markdown adapter,
-  including the Cursor `.mdc` rule, the Roo / Kiro rules-directory files, and the Hermes /
-  misaka identity files.
+  including the Cursor `.mdc` rule, the Roo / Kiro / Trae / Cline / Kilo / Continue
+  rules-directory files, and the Hermes / misaka / WorkBuddy identity files.
 - Convention fallback, only for agents that collect the convention path:
   `<home>/.agents/AGENTS.md`.
 
@@ -100,11 +100,11 @@ When reporting coverage to the user, name the tier each agent lands in.
 
 ## Persona files
 
-Hermes `SOUL.md` and misaka `MISAKA.md` are identity files, not rules files. They carry
-`header: false`, so the block is appended without the "Global Agent Instructions" heading, and
-removal strips only the marked region — a persona file this skill did not create is never
-deleted. Users who do not want standing task rules inside their persona should
-`install --skip=hermes,misaka`.
+Hermes `SOUL.md`, misaka `MISAKA.md` and WorkBuddy `SOUL.md` are identity files, not rules
+files. They carry `header: false`, so the block is appended without the "Global Agent
+Instructions" heading, and removal strips only the marked region — a persona file this skill
+did not create is never deleted. Users who do not want standing task rules inside their
+persona should `install --skip=hermes,misaka,workbuddy`.
 
 ## Detection
 
@@ -121,6 +121,14 @@ never produces a phantom config tree.
 - Markdown adapters: the file contains exactly one `recap:begin` marker.
 - Cursor: `<home>/.cursor/rules/recap.mdc` starts with frontmatter containing
   `alwaysApply: true`.
+- WorkBuddy: `<home>/.workbuddy/SOUL.md` keeps its frontmatter and contains exactly one
+  `recap:begin` marker.
+- Trae: `recap.md` exists under `<home>/.trae-cn/user_rules/` and/or `<home>/.trae-cn/rules/`
+  (or the `.trae` equivalents).
+- Cline: `<home>/Documents/Cline/Rules/recap.md` contains exactly one `recap:begin` marker.
+- Kilo Code: `<home>/.kilocode/rules/recap.md` contains exactly one `recap:begin` marker.
+- Continue: `<home>/.continue/rules/recap.md` exists and is shaped like a Continue rule file.
+- ZCode: `<home>/.zcode/AGENTS.md` contains exactly one `recap:begin` marker.
 - Runtime spot-check for markdown adapters, when the CLI has a headless mode:
   `cmd -p --no-session`, `pi --print`, `qoderclicn -p`, `agent -p --mode ask` each answer a
   throwaway question; the reply should end with the `🏁 **recap:**` and `➡️ **Next:**` lines. A missing line on a
@@ -142,6 +150,16 @@ never produces a phantom config tree.
 - Crush is migrating its config surface (the `crush.json` era is deprecated); its global context
   paths are the ones that moved.
 - Kiro inherited the Amazon Q CLI, so older write-ups naming `~/.aws/amazonq` are wrong now.
+- Trae's IDE and CLI docs disagree on the global rules directory (`user_rules` vs `rules`);
+  the adapter writes every such dir that already exists and defaults to `user_rules`.
+- WorkBuddy's UI global rules are injected as `scenarioRules` from its own store, not a file;
+  `SOUL.md` is the stable plain-file slot, and it doubles as the persona.
+- Cline resolves `~/Documents/Cline` through a redirected-Documents check; an iCloud or
+  relocated Documents folder can move the rules dir.
+- Continue's rules loading has had regressions in the VS Code extension; the file is written
+  as an advisory rule, not a guaranteed injection.
+- Kilo Code moved global rules from a JSON `instructions` key to `~/.kilocode/rules/`; the
+  adapter targets the directory form.
 
 If an adapter stops working after an agent update, the convention fallback still carries the
 rules: report the gap and update the adapter, and drop the tier until the path is re-confirmed.

@@ -4,17 +4,18 @@ description: >-
   Install, update, or remove the end-of-reply recap convention — a final "🏁 **recap:**" line
   saying what the turn did, plus a "➡️ **Next:**" line with the next step — across the AI coding
   agents installed on this machine: OpenCode, Claude Code, Codex, Gemini CLI, Grok, Kimi
-  Code, dsh, pi, Command Code, Qoder CLI, Cursor CLI, Antigravity, Hermes and misaka, plus
-  documentation-backed adapters for GitHub Copilot CLI, Qwen Code, Crush, Amp, Zed, Devin
-  CLI, Goose, Windsurf, Roo Code and Kiro, and the AGENTS.md convention. Use when the user
-  wants agents to close substantive replies with a short recap and next step, asks to set
-  up, change (prefix, sentence count, wording), skip, or remove that behavior machine-wide,
-  or complains that replies ramble without saying what comes next. Do not use for one-off
-  summaries of the current conversation, for changing any other reply behavior, or for
-  editing one agent's config by hand.
+  Code, dsh, pi, Command Code, Qoder CLI, WorkBuddy, Cursor CLI, Antigravity, Hermes,
+  misaka and Cline, plus documentation-backed adapters for GitHub Copilot CLI, Qwen Code,
+  Crush, Amp, Zed, Devin CLI, Goose, Windsurf, Roo Code, Kiro, Trae, Kilo Code, Continue and
+  ZCode, and the AGENTS.md convention. Use when the user wants agents to close substantive
+  replies with a short recap and next step, asks to set up, change (prefix, sentence count,
+  wording), skip, or remove that behavior machine-wide, or complains that replies ramble
+  without saying what comes next. Do not use for one-off summaries of the current
+  conversation, for changing any other reply behavior, or for editing one agent's config by
+  hand.
 license: MIT
 metadata:
-  version: "0.2.0"
+  version: "0.4.0"
 ---
 
 # Agent Recap
@@ -22,6 +23,8 @@ metadata:
 One behavior, every agent: substantive replies end with a compact handoff line.
 
 ```text
+---
+
 🏁 **recap:** Wired the recap convention into every agent found on this machine via its native mechanism.
 ➡️ **Next:** restart each agent, then run the status command to confirm coverage.
 ```
@@ -66,9 +69,9 @@ Any subcommand accepts `--dry-run` to print planned changes without writing. Pre
 - After installing, report the coverage table. Say plainly which agents are covered only
   by the convention fallback, and which landed in the `docs` tier rather than being read
   out of installed code.
-- Hermes `SOUL.md` and misaka `MISAKA.md` are identity files. The block is appended without a
-  heading, and removal never deletes them. If the user does not want task rules inside a
-  persona, use `--skip=hermes,misaka`.
+- Hermes `SOUL.md`, misaka `MISAKA.md` and WorkBuddy `SOUL.md` are identity files. The block is
+  appended without a heading, and removal never deletes them. If the user does not want task
+  rules inside a persona, use `--skip=hermes,misaka,workbuddy`.
 - A harness that is detected but has no landing directory gets nothing written: report it as
   `no landing dir`, do not create the tool's config tree.
 - Tell the user that every agent needs a restart to pick up the change.
@@ -77,9 +80,9 @@ Any subcommand accepts `--dry-run` to print planned changes without writing. Pre
 
 ## Changing the format
 
-Edit `CONFIG` at the top of `scripts/recap.mjs` (`prefix`, `nextLabel`, `maxSentences`),
-then re-run `install`. The markers make every agent update in place; there is no
-remove-and-reinstall dance.
+Edit `CONFIG` at the top of `scripts/recap.mjs` (`prefix`, `nextLabel`, `separator`,
+`maxSentences`), then re-run `install`. The markers make every agent update in place; there is
+no remove-and-reinstall dance. Set `separator` to `''` to drop the divider above the recap.
 
 ## Verifying
 

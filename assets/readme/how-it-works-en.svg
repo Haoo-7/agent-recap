@@ -2,11 +2,11 @@
      width="1200" height="660" viewBox="0 0 1200 660"
      role="img" aria-labelledby="flow-title flow-desc">
   <title id="flow-title">How agent-recap lands in each agent</title>
-  <desc id="flow-desc">One install command detects which agents are present and writes through four native mechanisms across 26 targets: a recap:begin / recap:end marked region inside global instruction files (21 targets, including the ~/.agents/AGENTS.md convention fallback); one skill-owned rules file (Cursor recap.mdc, Roo and Kiro rules directories); system-prompt injection via the OpenCode plugin and dsh profile patch; and nothing at all for a tool that is not installed. Re-running install updates in place, remove strips the whole block.</desc>
+  <desc id="flow-desc">One install command detects which agents are present and writes through four native mechanisms across 32 targets: a recap:begin / recap:end marked region inside global instruction files (23 targets, including the ~/.agents/AGENTS.md convention fallback); one skill-owned rules file (Cursor recap.mdc, Roo, Kiro, Trae, Cline, Kilo and Continue rules directories); system-prompt injection via the OpenCode plugin and dsh profile patch; and nothing at all for a tool that is not installed. Re-running install updates in place, remove strips the whole block.</desc>
 
   <rect width="1200" height="660" rx="18" fill="#0B0E14"/>
 
-  <text x="56" y="76" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="27" font-weight="700" fill="#E6E9F0">One command, four native mechanisms, 26 harness targets</text>
+  <text x="56" y="76" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="27" font-weight="700" fill="#E6E9F0">One command, four native mechanisms, 32 harness targets</text>
 
   <!-- command bar -->
   <g id="flow-cmd">
@@ -20,7 +20,7 @@
     <rect x="56" y="192" width="624" height="196" rx="10" fill="#11151F" stroke="#242B39"/>
     <circle cx="86" cy="222" r="5" fill="#79C0FF"/>
     <text x="104" y="228" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="19" font-weight="700" fill="#E6E9F0">Global instruction file: one marked region</text>
-    <text x="656" y="228" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" fill="#8B93A7">21 targets</text>
+    <text x="656" y="228" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" fill="#8B93A7">23 targets</text>
     <line x1="80" y1="246" x2="656" y2="246" stroke="#242B39"/>
 
     <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" fill="#C6CEDD">
@@ -33,16 +33,17 @@
 
   <!-- B: skill-owned rules files -->
   <g id="flow-family-rules">
-    <rect x="56" y="410" width="624" height="164" rx="10" fill="#11151F" stroke="#242B39"/>
+    <rect x="56" y="410" width="624" height="196" rx="10" fill="#11151F" stroke="#242B39"/>
     <circle cx="86" cy="440" r="5" fill="#79C0FF"/>
     <text x="104" y="446" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="19" font-weight="700" fill="#E6E9F0">Rules file the skill owns outright</text>
-    <text x="656" y="446" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" fill="#8B93A7">3 targets</text>
+    <text x="656" y="446" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" fill="#8B93A7">7 targets</text>
     <line x1="80" y1="464" x2="656" y2="464" stroke="#242B39"/>
 
     <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" fill="#C6CEDD">
       <text x="84" y="496">~/.cursor/rules/recap.mdc</text>
-      <text x="84" y="524">~/.roo/rules/recap.md      ~/.kiro/steering/recap.md</text>
-      <text x="84" y="552" fill="#8B93A7">Cursor applies it via alwaysApply: true, beside your rules</text>
+      <text x="84" y="524">~/.roo/rules/  ~/.kiro/steering/  ~/.kilocode/rules/</text>
+      <text x="84" y="552">~/Documents/Cline/Rules/  ~/.continue/rules/  ~/.trae-cn/*/</text>
+      <text x="84" y="580" fill="#8B93A7">Cursor applies it via alwaysApply: true, beside your rules</text>
     </g>
   </g>
 

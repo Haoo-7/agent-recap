@@ -2,11 +2,11 @@
      width="1200" height="660" viewBox="0 0 1200 660"
      role="img" aria-labelledby="flow-title flow-desc">
   <title id="flow-title">agent-recap 怎样落到每个 agent</title>
-  <desc id="flow-desc">install 检测本机装了哪些 agent，按四种原生机制写入 26 个落点：在全局指令文件里维护 recap:begin 与 recap:end 标记区（21 个，含 ~/.agents/AGENTS.md 约定兜底）；写专用 rules 文件（Cursor 的 recap.mdc、Roo 和 Kiro 的 rules 目录）；通过 OpenCode 插件和 dsh profile patch 每次请求注入系统提示；未装的工具什么都不写。重跑 install 是原地更新，remove 整块撤除。</desc>
+  <desc id="flow-desc">install 检测本机装了哪些 agent，按四种原生机制写入 32 个落点：在全局指令文件里维护 recap:begin 与 recap:end 标记区（23 个，含 ~/.agents/AGENTS.md 约定兜底）；写专用 rules 文件（Cursor 的 recap.mdc、Roo、Kiro、Trae、Cline、Kilo 和 Continue 的 rules 目录）；通过 OpenCode 插件和 dsh profile patch 每次请求注入系统提示；未装的工具什么都不写。重跑 install 是原地更新，remove 整块撤除。</desc>
 
   <rect width="1200" height="660" rx="18" fill="#0B0E14"/>
 
-  <text x="56" y="76" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="27" font-weight="700" fill="#E6E9F0">一条命令，四种原生机制，落到 26 个 harness</text>
+  <text x="56" y="76" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="27" font-weight="700" fill="#E6E9F0">一条命令，四种原生机制，落到 32 个 harness</text>
 
   <!-- 命令条 -->
   <g id="flow-cmd">
@@ -20,7 +20,7 @@
     <rect x="56" y="192" width="624" height="196" rx="10" fill="#11151F" stroke="#242B39"/>
     <circle cx="86" cy="222" r="5" fill="#79C0FF"/>
     <text x="104" y="228" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="19" font-weight="700" fill="#E6E9F0">全局指令文件：维护一块 recap 标记区</text>
-    <text x="656" y="228" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" fill="#8B93A7">21 个落点</text>
+    <text x="656" y="228" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" fill="#8B93A7">23 个落点</text>
     <line x1="80" y1="246" x2="656" y2="246" stroke="#242B39"/>
 
     <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" fill="#C6CEDD">
@@ -33,16 +33,17 @@
 
   <!-- B：专用 rules 文件 -->
   <g id="flow-family-rules">
-    <rect x="56" y="410" width="624" height="164" rx="10" fill="#11151F" stroke="#242B39"/>
+    <rect x="56" y="410" width="624" height="196" rx="10" fill="#11151F" stroke="#242B39"/>
     <circle cx="86" cy="440" r="5" fill="#79C0FF"/>
     <text x="104" y="446" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, sans-serif" font-size="19" font-weight="700" fill="#E6E9F0">专用 rules 文件：一个本 Skill 自持的文件</text>
-    <text x="656" y="446" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" fill="#8B93A7">3 个落点</text>
+    <text x="656" y="446" text-anchor="end" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17" fill="#8B93A7">7 个落点</text>
     <line x1="80" y1="464" x2="656" y2="464" stroke="#242B39"/>
 
     <g font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" fill="#C6CEDD">
       <text x="84" y="496">~/.cursor/rules/recap.mdc</text>
-      <text x="84" y="524">~/.roo/rules/recap.md      ~/.kiro/steering/recap.md</text>
-      <text x="84" y="552" fill="#8B93A7">Cursor 走 alwaysApply: true，不动你写的其他规则</text>
+      <text x="84" y="524">~/.roo/rules/  ~/.kiro/steering/  ~/.kilocode/rules/</text>
+      <text x="84" y="552">~/Documents/Cline/Rules/  ~/.continue/rules/  ~/.trae-cn/*/</text>
+      <text x="84" y="580" fill="#8B93A7">Cursor 走 alwaysApply: true，不动你写的其他规则</text>
     </g>
   </g>
 

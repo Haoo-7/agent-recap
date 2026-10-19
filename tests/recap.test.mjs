@@ -33,6 +33,14 @@ function makeHome({ without = [] } = {}) {
     '.commandcode',
     '.qoder',
     '.qoder-cn',
+    '.workbuddy',
+    '.trae-cn/user_rules',
+    '.trae-cn/rules',
+    '.cline',
+    'Documents/Cline/Hooks',
+    '.kilocode',
+    '.continue',
+    '.zcode',
     '.cursor',
     '.hermes',
     '.misaka',
@@ -61,6 +69,14 @@ function makeHome({ without = [] } = {}) {
   fs.writeFileSync(path.join(home, '.gemini/GEMINI.md'), '# Context\n\nExisting user notes.\n');
   fs.writeFileSync(path.join(home, '.hermes/SOUL.md'), '# Hermes\n\nBe kawaii and precise.\n');
   fs.writeFileSync(path.join(home, '.misaka/MISAKA.md'), '# MISAKA Network\n\nNever invent a source.\n');
+  fs.writeFileSync(
+    path.join(home, '.workbuddy/SOUL.md'),
+    '---\ntitle: "SOUL.md"\n---\n\n# SOUL.md - Who You Are\n\nBe precise.\n',
+  );
+  fs.writeFileSync(
+    path.join(home, '.zcode/AGENTS.md'),
+    '# ZCode rules\n\nKeep user content.\n',
+  );
   fs.writeFileSync(
     path.join(home, '.dsh/profiles/web/cordis.patch.yml'),
     [
@@ -125,6 +141,7 @@ test('install writes exactly one managed region to every landing path in the tab
   const claude = read(path.join(home, '.claude/CLAUDE.md'));
   assert.match(claude, /🏁 \*\*recap:\*\*/);
   assert.match(claude, /➡️ \*\*Next:\*\*/);
+  assert.match(claude, /Put "---" on its own line with a blank line before and after it/);
 
   // dsh: managed personaSuffix replaced the legacy entry, other entries survive
   const dsh = read(path.join(home, '.dsh/profiles/web/cordis.patch.yml'));
@@ -144,16 +161,21 @@ test('persona files keep their own shape and are not deleted on remove', () => {
   const home = makeHome();
   run(home, 'install');
 
-  for (const id of ['hermes', 'misaka']) {
+  for (const id of ['hermes', 'misaka', 'workbuddy']) {
     const { file } = landingPaths(home).find((p) => p.adapter.id === id);
     const text = read(file);
     assert.doesNotMatch(text, /# Global Agent Instructions/, `${id} is a persona file`);
     assert.match(text, /recap:begin/);
   }
   assert.match(read(path.join(home, '.hermes/SOUL.md')), /Be kawaii and precise\./);
+  assert.match(read(path.join(home, '.workbuddy/SOUL.md')), /Be precise\./);
 
   run(home, 'remove');
-  for (const [id, line] of [['hermes', /Be kawaii and precise\./], ['misaka', /Never invent a source\./]]) {
+  for (const [id, line] of [
+    ['hermes', /Be kawaii and precise\./],
+    ['misaka', /Never invent a source\./],
+    ['workbuddy', /Be precise\./],
+  ]) {
     const { file } = landingPaths(home).find((p) => p.adapter.id === id);
     assert.ok(fs.existsSync(file), `${id} file should survive removal`);
     assert.match(read(file), line);
@@ -210,6 +232,22 @@ test('changing CONFIG updates every agent in place', () => {
   assert.equal(markers(path.join(home, '.claude/CLAUDE.md')), 1);
 });
 
+test('separator can be disabled through CONFIG', () => {
+  const home = makeHome();
+  run(home, 'install');
+
+  const source = fs.readFileSync(script, 'utf8');
+  const tweaked = source.replace(/separator: '[^']*'/, "separator: ''");
+  assert.notEqual(tweaked, source, 'test patch should clear the separator');
+  const tweakedScript = path.join(home, 'recap-no-separator.mjs');
+  fs.writeFileSync(tweakedScript, tweaked);
+  execFileSync(process.execPath, [tweakedScript, 'install'], { env: env(home), encoding: 'utf8' });
+
+  const claude = read(path.join(home, '.claude/CLAUDE.md'));
+  assert.doesNotMatch(claude, /Put "---" on its own line/);
+  assert.equal(markers(path.join(home, '.claude/CLAUDE.md')), 1);
+});
+
 test('--skip leaves the named adapter untouched and writes the rest', () => {
   const home = makeHome();
   run(home, 'install', '--skip=hermes,misaka');
@@ -239,6 +277,10 @@ test('remove strips regions, deletes wholly-managed files, keeps user content', 
   assert.equal(fs.existsSync(path.join(home, '.config/opencode/plugins/recap-line.js')), false);
   assert.match(read(path.join(home, '.dsh/profiles/web/cordis.patch.yml')), /existing-entry/);
   assert.doesNotMatch(read(path.join(home, '.dsh/profiles/web/cordis.patch.yml')), /recap:begin/);
+
+  // ZCode keeps its user-authored AGENTS.md and loses only the managed region
+  assert.equal(markers(path.join(home, '.zcode/AGENTS.md')), 0);
+  assert.match(read(path.join(home, '.zcode/AGENTS.md')), /Keep user content\./);
 
   for (const target of landingPaths(home)) {
     assert.equal(coverage(target), 0, `${target.adapter.id} ${target.file} should be clean after removal`);
@@ -278,7 +320,26 @@ test('rules-dir adapters own a separate managed file and drop it on remove', () 
   const kiro = path.join(home, '.kiro/steering/recap.md');
   assert.match(read(kiro), /rules-dir file, managed by the agent-recap skill/);
 
+  // Trae: both the IDE (user_rules) and CLI (rules) dirs get their own owned file
+  const traeIde = path.join(home, '.trae-cn/user_rules/recap.md');
+  const traeCli = path.join(home, '.trae-cn/rules/recap.md');
+  assert.match(read(traeIde), /rules-dir file, managed by the agent-recap skill/);
+  assert.match(read(traeCli), /rules-dir file, managed by the agent-recap skill/);
+
+  // Cline, Kilo and Continue own one file inside their global rules dirs
+  const ruleFiles = [
+    path.join(home, 'Documents/Cline/Rules/recap.md'),
+    path.join(home, '.kilocode/rules/recap.md'),
+    path.join(home, '.continue/rules/recap.md'),
+  ];
+  for (const file of ruleFiles) {
+    assert.match(read(file), /rules-dir file, managed by the agent-recap skill/, file);
+  }
+
   run(home, 'remove');
   assert.equal(fs.existsSync(roo), false);
   assert.equal(fs.existsSync(kiro), false);
+  assert.equal(fs.existsSync(traeIde), false);
+  assert.equal(fs.existsSync(traeCli), false);
+  for (const file of ruleFiles) assert.equal(fs.existsSync(file), false, file);
 });
