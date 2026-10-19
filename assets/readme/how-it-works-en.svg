@@ -67,7 +67,7 @@
     <text x="724" y="410" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" fill="#7EE787">&lt;!-- recap:begin --&gt;</text>
     <text x="724" y="436" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" fill="#C6CEDD">## Reply Closing (Recap)</text>
     <text x="724" y="462" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" fill="#8B93A7">- one closing line per reply</text>
-    <text x="742" y="486" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" fill="#8B93A7">&#8220;🏁 recap: &#8230;&#8221; + &#8220;Next: &#8230;&#8221;</text>
+    <text x="742" y="486" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" fill="#8B93A7">&#8220;🏁 recap: &#8230;&#8221; + &#8220;➡️ Next: &#8230;&#8221;</text>
     <text x="724" y="512" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16" fill="#7EE787">&lt;!-- recap:end --&gt;</text>
   </g>
 

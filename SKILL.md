@@ -1,8 +1,8 @@
 ---
 name: agent-recap
 description: >-
-  Install, update, or remove the end-of-reply recap convention — a final "🏁 recap:" line
-  saying what the turn did, plus a "Next:" line with the next step — across the AI coding
+  Install, update, or remove the end-of-reply recap convention — a final "🏁 **recap:**" line
+  saying what the turn did, plus a "➡️ **Next:**" line with the next step — across the AI coding
   agents installed on this machine: OpenCode, Claude Code, Codex, Gemini CLI, Grok, Kimi
   Code, dsh, pi, Command Code, Qoder CLI, Cursor CLI, Antigravity, Hermes and misaka, plus
   documentation-backed adapters for GitHub Copilot CLI, Qwen Code, Crush, Amp, Zed, Devin
@@ -22,8 +22,8 @@ metadata:
 One behavior, every agent: substantive replies end with a compact handoff line.
 
 ```text
-🏁 recap: Wired the recap convention into every agent found on this machine via its native mechanism.
-Next: restart each agent, then run the status command to confirm coverage.
+🏁 **recap:** Wired the recap convention into every agent found on this machine via its native mechanism.
+➡️ **Next:** restart each agent, then run the status command to confirm coverage.
 ```
 
 ## What gets installed

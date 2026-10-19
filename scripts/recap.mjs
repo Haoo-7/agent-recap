@@ -32,8 +32,8 @@ const SKIP = new Set(argv.filter((a) => a.startsWith('--skip='))
   .filter(Boolean));
 
 const CONFIG = {
-  prefix: '🏁 recap:',
-  nextLabel: 'Next:',
+  prefix: '🏁 **recap:**',
+  nextLabel: '➡️ **Next:**',
   maxSentences: 2,
 };
 
@@ -47,6 +47,7 @@ const RULES = [
   `End every substantive reply with a final line beginning "${CONFIG.prefix}" as a handoff summary.`,
   'First sentence: what this turn was about and why, not a completion receipt like "done".',
   `Second sentence beginning "${CONFIG.nextLabel}": the immediate state, blocker, decision, or recommended next move; write "none" if there is nothing.`,
+  `Keep the \`**\` markers in "${CONFIG.prefix}" and "${CONFIG.nextLabel}" exactly as written so both labels render bold.`,
   'Write it like a verbal handoff between collaborators: specific and context-continuing, not a status report.',
   `Keep the whole recap to at most ${CONFIG.maxSentences} sentences.`,
   'Skip greetings and pure clarifying questions.',

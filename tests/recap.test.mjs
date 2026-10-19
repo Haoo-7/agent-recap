@@ -121,6 +121,11 @@ test('install writes exactly one managed region to every landing path in the tab
   assert.match(codex, /Prefer rg for search\./);
   assert.doesNotMatch(codex, /旧版规则/);
 
+  // both labels carry their bold markers and the Next arrow
+  const claude = read(path.join(home, '.claude/CLAUDE.md'));
+  assert.match(claude, /🏁 \*\*recap:\*\*/);
+  assert.match(claude, /➡️ \*\*Next:\*\*/);
+
   // dsh: managed personaSuffix replaced the legacy entry, other entries survive
   const dsh = read(path.join(home, '.dsh/profiles/web/cordis.patch.yml'));
   assert.match(dsh, /existing-entry/);

@@ -123,7 +123,7 @@ never produces a phantom config tree.
   `alwaysApply: true`.
 - Runtime spot-check for markdown adapters, when the CLI has a headless mode:
   `cmd -p --no-session`, `pi --print`, `qoderclicn -p`, `agent -p --mode ask` each answer a
-  throwaway question; the reply should end with the `🏁 recap:` line. A missing line on a
+  throwaway question; the reply should end with the `🏁 **recap:**` and `➡️ **Next:**` lines. A missing line on a
   one-word answer is model adherence, not a broken adapter — ask the agent to quote the
   "Reply Closing (Recap)" section instead.
 

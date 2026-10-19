@@ -1,7 +1,7 @@
 # agent-recap
 
 <p align="center">
-  <img src="./assets/readme/hero.svg" width="100%" alt="agent-recap：给一台机器上装了多个 AI coding agent 的人，每条回复结尾固定两行——🏁 recap 说这轮做了什么，Next 说下一步。26 个 harness 落点，按各自原生机制写入：OpenCode、Claude Code、Codex、Gemini CLI、Grok、Kimi Code、dsh、pi、Command Code、Qoder CLI、Cursor CLI、Antigravity、Hermes、misaka、GitHub Copilot CLI、Qwen Code、Crush、Amp、Zed、Devin、Goose、Windsurf、Roo Code、Kiro CLI、CodeBuddy，外加 AGENTS.md 约定兜底。一条命令装完，无第三方依赖。">
+  <img src="./assets/readme/hero.svg" width="100%" alt="agent-recap：给一台机器上装了多个 AI coding agent 的人，每条回复结尾固定两行——🏁 recap 说这轮做了什么，➡️ Next 说下一步。26 个 harness 落点，按各自原生机制写入：OpenCode、Claude Code、Codex、Gemini CLI、Grok、Kimi Code、dsh、pi、Command Code、Qoder CLI、Cursor CLI、Antigravity、Hermes、misaka、GitHub Copilot CLI、Qwen Code、Crush、Amp、Zed、Devin、Goose、Windsurf、Roo Code、Kiro CLI、CodeBuddy，外加 AGENTS.md 约定兜底。一条命令装完，无第三方依赖。">
 </p>
 
 <p align="center">
@@ -10,7 +10,7 @@
 
 ## 有什么用
 
-给这台机器上所有 AI coding agent 装上同一条收尾规则：每条有实质内容的回复结尾，附一行 `🏁 recap:` 说明这轮在做什么、为什么，再加一行 `Next:` 说明当前状态、阻塞或下一步。
+给这台机器上所有 AI coding agent 装上同一条收尾规则：每条有实质内容的回复结尾，附一行 `🏁 **recap:**` 说明这轮在做什么、为什么，再加一行 `➡️ **Next:**` 说明当前状态、阻塞或下一步。
 
 不装这个 Skill 时：每个 agent 的回复风格各不相同，长篇回复看完不知道干了什么、下一步该干什么；想统一就得逐台查它的全局指令文件写在哪、格式是否兼容，漏一个就是一个例外。装好之后：一条命令检测本机装了哪些 agent，按各自的原生机制写入，重复执行是原地更新不会叠加，一条命令全体撤除。
 
@@ -75,7 +75,7 @@
 
 ## 配置
 
-首次使用无需任何配置。默认 `🏁 recap:` 前缀、两句话上限。想改格式：编辑 `scripts/recap.mjs` 顶部的 `CONFIG`（`prefix`、`nextLabel`、`maxSentences`），重跑一次 install，所有 agent 原地更新。
+首次使用无需任何配置。默认 `🏁 **recap:**` 和 `➡️ **Next:**` 两行标签（均加粗）、两句话上限。想改格式：编辑 `scripts/recap.mjs` 顶部的 `CONFIG`（`prefix`、`nextLabel`、`maxSentences`），重跑一次 install，所有 agent 原地更新。
 
 ## 使用
 
@@ -124,7 +124,7 @@ node scripts/recap.mjs status       # 查看本机覆盖情况
 ## English
 
 <p align="center">
-  <img src="./assets/readme/hero-en.svg" width="100%" alt="agent-recap: for anyone running several AI coding agents on one machine, every reply ends with two fixed lines — a 🏁 recap line saying what the turn did, and a Next line saying what comes next. 26 harness targets, each written through its own native mechanism: OpenCode, Claude Code, Codex, Gemini CLI, Grok, Kimi Code, dsh, pi, Command Code, Qoder CLI, Cursor CLI, Antigravity, Hermes, misaka, GitHub Copilot CLI, Qwen Code, Crush, Amp, Zed, Devin, Goose, Windsurf, Roo Code, Kiro CLI and CodeBuddy, plus the AGENTS.md convention fallback. One command, no third-party dependencies.">
+  <img src="./assets/readme/hero-en.svg" width="100%" alt="agent-recap: for anyone running several AI coding agents on one machine, every reply ends with two fixed lines — a 🏁 recap line saying what the turn did, and a ➡️ Next line saying what comes next. 26 harness targets, each written through its own native mechanism: OpenCode, Claude Code, Codex, Gemini CLI, Grok, Kimi Code, dsh, pi, Command Code, Qoder CLI, Cursor CLI, Antigravity, Hermes, misaka, GitHub Copilot CLI, Qwen Code, Crush, Amp, Zed, Devin, Goose, Windsurf, Roo Code, Kiro CLI and CodeBuddy, plus the AGENTS.md convention fallback. One command, no third-party dependencies.">
 </p>
 
 > Chinese is the primary language of this document; the sections above are the reference version.
@@ -132,8 +132,8 @@ node scripts/recap.mjs status       # 查看本机覆盖情况
 ### What it does
 
 For people who run several AI coding agents on one machine: every substantive reply ends with
-two fixed lines — a `🏁 recap:` line saying what the turn did and why, and a `Next:` line with
-the current state, blocker, or next step.
+two fixed lines — a `🏁 **recap:**` line saying what the turn did and why, and a `➡️ **Next:**` line with
+the current state, blocker, or next step. Both labels are bold.
 
 Without it, each agent has its own reply style, long answers leave you guessing what happened
 and what comes next, and unifying them means finding each agent's global instruction file and
@@ -205,9 +205,9 @@ third-party packages.
 
 ### Configuration
 
-Nothing to configure on first use. Default prefix `🏁 recap:`, two-sentence cap. To change the
-format: edit `CONFIG` at the top of `scripts/recap.mjs` (`prefix`, `nextLabel`,
-`maxSentences`) and re-run install — every agent updates in place.
+Nothing to configure on first use. Default labels `🏁 **recap:**` and `➡️ **Next:**`, both bold, a
+two-sentence cap. To change the format: edit `CONFIG` at the top of `scripts/recap.mjs`
+(`prefix`, `nextLabel`, `maxSentences`) and re-run install — every agent updates in place.
 
 ### Usage
 
